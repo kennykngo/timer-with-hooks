@@ -5,7 +5,7 @@ function App() {
     let year = new Date().getFullYear();
 
     // + before new Date tells javascript to cast object as an integer in microseconds
-    const difference = +new Date(`10/01/${year}`) - +new Date();
+    const difference = +new Date(`11/01/${year}`) - +new Date();
 
     let timeLeft = {};
 
@@ -28,11 +28,31 @@ function App() {
     const timer = setTimeout(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
-
-    return () => clearTimeout(timer);
   });
 
-  return <></>;
+  const timerComponents = [];
+
+  // If the timer interval is above zer0, it adds an element to the timerComponents array
+  Object.keys(timeLeft).forEach((interval) => {
+    if (!timeLeft[interval]) {
+      return;
+    }
+
+    timerComponents.push(
+      <span>
+        {timeLeft[interval]} {interval}{" "}
+      </span>
+    );
+  });
+
+  // Clear timeout if the component is unmounted
+  // return () => clearTimeout(timer);
+
+  return (
+    <div>
+      {timerComponents.length ? timerComponents : <span>Time's up!</span>}
+    </div>
+  );
 }
 
 export default App;
